@@ -2,7 +2,7 @@
 const { test, expect } = require('@playwright/test');
 
 test('has title', async ({ page }) => {
-  await page.goto('localhost:8080');
+  await page.goto('https://counterapp-7u2m.onrender.com/');
 
   // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Counter Application/);
