@@ -1,4 +1,4 @@
-console.log("Server side code is running.")
+console.log("Server side code is running.");
 const { createClient } = require('@libsql/client');
 const express = require('express');
 const path = require('path');
@@ -14,7 +14,7 @@ app.use(express.static('./public'));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 
-app.listen(8080, () => {
+app.listen(process.env.PORT || 8080, () => {
     console.log("Listening in 8080!");
 })
 
@@ -26,8 +26,10 @@ app.get('/getNumber', (req, res) => {
     client
       .execute("SELECT countedNumber FROM countedNumbers")
       .then(function (result) {
-        res.status(200).send(result);
-      });
+        const numberFromServer = result.rows[0]['countedNumber'];
+        console.log(result.rows[0]['countedNumber'].toString())
+        res.status(200).json(numberFromServer);
+      })
 });
 
 app.put("/increased", (req, res) => {

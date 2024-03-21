@@ -10,8 +10,8 @@ function loadNumber(){
         if(response.ok){
           response.json()
           .then(function(data){
-            console.log(data["rows"][0][0]);
-            startNumber.innerHTML = data["rows"][0][0];
+            console.log(data)
+            startNumber.innerHTML = data;
         });
           return;
         }

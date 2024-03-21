@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "Counter Application",
   "main": "server.js",
-  "scripts": {},
+  "scripts": {
+    "start": "node server.js",
+    "startdev": "nodemon server.js"
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {

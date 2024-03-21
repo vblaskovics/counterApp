@@ -1,42 +1,17 @@
-name: Build and Deploy
+name: Deploy
+
 on:
   push:
-    branches: ["main"]
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Install and Build
-        run: |
-          npm ci
-          npm run build
-
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.13.15 # This is the action
         with:
-          folder: build
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "counterApp" #Must be unique in Heroku
+          heroku_email: "szankovszky.david@gmail.com"
