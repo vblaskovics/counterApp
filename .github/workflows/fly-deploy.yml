@@ -1,0 +1,36 @@
+name: Deploy main to Fly
+on:
+  push:
+    branches: [ main ]
+
+# env:
+#   FLY_API_TOKEN: ${{ secrets.FLY_TOKEN }}
+
+jobs:
+  createDockerimage:
+    name: Create dockerimage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create dockerimage
+        run: docker build -t counterappdockerfile .
+
+  
+  launchFlyIoApp:
+    name: Launch FlyIo App
+    runs-on: ubuntu-latest
+    steps:
+      - name: Launch FlyIo App
+        run: flyctl launch
+  
+  deploy:
+    name: Deploy to Fly
+    runs-on: ubuntu-latest
+    steps:        
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Setup flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy
+        run: flyctl deploy
