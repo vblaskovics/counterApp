@@ -4,8 +4,8 @@ const increaseButton = document.getElementById("increaseButton");
 const decreaseButton = document.getElementById("decreaseButton");
 const startNumber = document.getElementById("countNumber");
 
-async function loadNumber(){
-    await fetch('/getNumber', {method: 'GET'})
+function loadNumber(){
+    fetch('/getNumber', {method: 'GET'})
     .then(function(response){
         if(response.ok){
           response.json()
