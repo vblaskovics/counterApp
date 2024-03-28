@@ -18,6 +18,16 @@ jobs:
       - uses: actions/checkout@v4
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Launch FlyIo App
-        run: flyctl launch --now --dockerfile Dockerfile
+        run: flyctl launch --no-deploy --now --dockerfile Dockerfile
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+  
+  deployFlyIoApp:
+    needs: launchFlyIoApp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
