@@ -1,12 +1,13 @@
-# fly.toml app configuration file generated for counterapp on 2024-03-22T17:46:17+01:00
+# fly.toml app configuration file generated for counterapp-late-sun-7778 on 2024-03-28T14:58:42+01:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'counterapp'
+app = 'counterapp-late-sun-7778'
 primary_region = 'lhr'
 
 [build]
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 8080

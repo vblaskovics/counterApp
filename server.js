@@ -14,7 +14,7 @@ app.use(express.static('./public'));
 app.use('/css', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, 'node_modules/bootstrap/dist/js')));
 
-app.listen(process.env.PORT || 8080, () => {
+app.listen(process.env.PORT || (8080, '0.0.0.0'), () => {
     console.log("Listening in 8080!");
 })
 

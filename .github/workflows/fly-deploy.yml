@@ -10,24 +10,11 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the Docker image
         run: docker build -t counterappdockerfile .
-
   
-  # launchFlyIoApp:
-  #   name: Launch FlyIo App
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Launch FlyIo App
-  #       run: flyctl launch
-  
-  # deploy:
-  #   name: Deploy to Fly
-  #   runs-on: ubuntu-latest
-  #   steps:        
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-        
-  #     - name: Setup flyctl
-  #       uses: superfly/flyctl-actions/setup-flyctl@master
-
-  #     - name: Deploy
-  #       run: flyctl deploy
+  launchFlyIoApp:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+      - name: Launch FlyIo App
+        run: flyctl launch --now --dockerfile Dockerfile
