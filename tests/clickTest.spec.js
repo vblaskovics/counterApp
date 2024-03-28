@@ -3,27 +3,33 @@ const { test, expect } = require('@playwright/test');
 
 test('has title', async ({ page }) => {
   await page.goto('/');
-
-  // Expect a title "to contain" a substring.
   await expect(page).toHaveTitle(/Counter Application/);
 });
 
 test('increase test', async ({ page }) => {
     await page.goto('/');
     const increase = page.getByTestId('increaseButton');
+    await increase.click();
     const numberView = page.getByTestId('countNumber');
-    const numberBeforeIncrease = numberView.innerText.toString();
+    await page.waitForTimeout(3000);
+    const numberBeforeIncrease = (await numberView.innerHTML()).toString();
     console.log(numberBeforeIncrease);
     await increase.click();
-    await expect(numberView).toHaveText('37');
+    await page.waitForTimeout(3000);
+    const numberAfterIncrease = parseInt(numberBeforeIncrease) + 1;
+    await expect(numberView).toHaveText(numberAfterIncrease.toString());
 });
 
 test('decrease test', async ({ page }) => {
   await page.goto('/');
   const increase = page.getByTestId('decreaseButton');
-  const numberView = page.getByTestId('countNumber');
-  const numberBeforeIncrease = numberView.innerText.toString();
-  console.log(numberBeforeIncrease);
   await increase.click();
-  await expect(numberView).toHaveText('37');
+  const numberView = page.getByTestId('countNumber');
+  await page.waitForTimeout(3000);
+  const numberBeforeDecrease = (await numberView.innerHTML()).toString();
+  console.log(numberBeforeDecrease);
+  await increase.click();
+  await page.waitForTimeout(3000);
+  const numberAfterDecrease = parseInt(numberBeforeDecrease) - 1;
+  await expect(numberView).toHaveText(numberAfterDecrease.toString());
 });

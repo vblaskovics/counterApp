@@ -4,8 +4,6 @@ const increaseButton = document.getElementById("increaseButton");
 const decreaseButton = document.getElementById("decreaseButton");
 const startNumber = document.getElementById("countNumber");
 
-
-
 function loadNumber(){
     fetch('/getNumber', {method: 'GET'})
     .then(function(response){
