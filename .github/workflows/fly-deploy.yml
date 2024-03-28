@@ -10,8 +10,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build the Docker image
         run: docker build -t counterappdockerfile .
-  
+
   launchFlyIoApp:
+    needs: buildDockerimage
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
