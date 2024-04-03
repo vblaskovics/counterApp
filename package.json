@@ -4,8 +4,8 @@
   "description": "Counter Application",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "startdev": "nodemon server.js",
+    "start": "node ./src/server.js",
+    "startdev": "nodemon ./src/server.js",
     "test": "npx playwright test"
   },
   "author": "",

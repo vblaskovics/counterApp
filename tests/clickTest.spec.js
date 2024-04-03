@@ -1,5 +1,6 @@
 // @ts-check
 const { test, expect } = require('@playwright/test');
+const { promises } = require('dns');
 
 test('has title', async ({ page }) => {
   await page.goto('/');
@@ -10,6 +11,11 @@ test('increase test', async ({ page }) => {
     await page.goto('/');
     const increase = page.getByTestId('increaseButton');
     await increase.click();
+    // increase.evaluate((e) => {
+    //   return new Promise((res) => {
+    //     e.addEventListener('click', res, {once: true})
+    //   })
+    // })
     const numberView = page.getByTestId('countNumber');
     await page.waitForTimeout(3000);
     const numberBeforeIncrease = (await numberView.innerHTML()).toString();
