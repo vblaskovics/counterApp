@@ -1,41 +1,34 @@
 // @ts-check
-const { test, expect } = require('@playwright/test');
-const { promises } = require('dns');
+const { test, expect } = require("@playwright/test");
+const { parse } = require("path");
 
 test('has title', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveTitle(/Counter Application/);
 });
 
-test('increase test', async ({ page }) => {
-    await page.goto('/');
-    const increase = page.getByTestId('increaseButton');
-    await increase.click();
-    // increase.evaluate((e) => {
-    //   return new Promise((res) => {
-    //     e.addEventListener('click', res, {once: true})
-    //   })
-    // })
-    const numberView = page.getByTestId('countNumber');
-    await page.waitForTimeout(3000);
-    const numberBeforeIncrease = (await numberView.innerHTML()).toString();
-    console.log(numberBeforeIncrease);
-    await increase.click();
-    await page.waitForTimeout(3000);
-    const numberAfterIncrease = parseInt(numberBeforeIncrease) + 1;
-    await expect(numberView).toHaveText(numberAfterIncrease.toString());
+test("increase test", async ({ page }) => {
+  await page.goto("/");
+  await page.waitForLoadState('domcontentloaded');
+  const numberDiv = page.getByTestId("countNumber");
+  await numberDiv.waitFor({state: 'visible'});
+  const number = await numberDiv.innerText();
+  await page.getByTestId("increaseButton").click();
+  await page.waitForTimeout(500);
+  const increasedNumberOnPage = await numberDiv.innerText();
+  const increasedNumber = parseInt(number) + 1;
+  await expect(increasedNumberOnPage).toEqual(increasedNumber.toString());
 });
 
 test('decrease test', async ({ page }) => {
-  await page.goto('/');
-  const increase = page.getByTestId('decreaseButton');
-  await increase.click();
-  const numberView = page.getByTestId('countNumber');
-  await page.waitForTimeout(3000);
-  const numberBeforeDecrease = (await numberView.innerHTML()).toString();
-  console.log(numberBeforeDecrease);
-  await increase.click();
-  await page.waitForTimeout(3000);
-  const numberAfterDecrease = parseInt(numberBeforeDecrease) - 1;
-  await expect(numberView).toHaveText(numberAfterDecrease.toString());
+  await page.goto("/");
+  await page.waitForLoadState('domcontentloaded');
+  const numberDiv = page.getByTestId("countNumber");
+  await numberDiv.waitFor({state: 'visible'});
+  const number = await numberDiv.innerText();
+  await page.getByTestId("decreaseButton").click();
+  await page.waitForTimeout(500);
+  const decreasedNumberOnPage = await numberDiv.innerText();
+  const decreasedNumber = parseInt(number) - 1;
+  await expect(decreasedNumberOnPage).toEqual(decreasedNumber.toString());
 });

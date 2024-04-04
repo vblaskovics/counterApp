@@ -2,5 +2,5 @@ FROM node:slim
 WORKDIR /counterApp
 COPY . .
 RUN npm ci
-CMD node server.js
+CMD node ./src/server.js
 EXPOSE 8080

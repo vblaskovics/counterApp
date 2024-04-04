@@ -4,11 +4,11 @@ const increaseButton = document.getElementById("increaseButton");
 const decreaseButton = document.getElementById("decreaseButton");
 const startNumber = document.getElementById("countNumber");
 
-function loadNumber(){
-    fetch('/getNumber', {method: 'GET'})
-    .then(function(response){
+async function loadNumber(){
+    await fetch('/getNumber', {method: 'GET'})
+    .then(async function(response){
         if(response.ok){
-          response.json()
+          await response.json()
           .then(function(data){
             console.log(data)
             startNumber.innerHTML = data;
@@ -22,12 +22,13 @@ function loadNumber(){
     })
 }
 
-increaseButton.addEventListener('click', function(e) {
+increaseButton.addEventListener('click', async function(e) {
     console.log("Increase button is clicked!");
-    fetch('/increased', {method: 'PUT'})
+    await fetch('/increased', {method: 'PUT'})
     .then(function(response){
         if(response.ok){
           console.log("Increase recorded!");
+          loadNumber();
           return;
         }
         throw new Error("Request failed.");
@@ -35,17 +36,18 @@ increaseButton.addEventListener('click', function(e) {
     .catch(function(error){
         console.log(error);
     })
-    setTimeout(() => {
-        loadNumber();
-    }, 300);
+    // setTimeout(() => {
+    //     loadNumber();
+    // }, 300);
 })
 
-decreaseButton.addEventListener('click', function(e) {
+decreaseButton.addEventListener('click', async function(e) {
     console.log("Decrease button is clicked!");
-    fetch("/decreased", { method: "PUT" })
+    await fetch("/decreased", { method: "PUT" })
       .then(function (response) {
         if (response.ok) {
           console.log("Decrease recorded!");
+          loadNumber();
           return;
         }
         throw new Error("Request failed.");
@@ -53,7 +55,7 @@ decreaseButton.addEventListener('click', function(e) {
       .catch(function (error) {
         console.log(error);
       });
-    setTimeout(() => {
-      loadNumber();
-    }, 300);
+    // setTimeout(() => {
+    //   loadNumber();
+    // }, 300);
 })
