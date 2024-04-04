@@ -4,16 +4,24 @@ on:
     branches: [ main ]
 
 jobs:
-  test:
-    timeout-minutes: 60
+  buildTypeScript:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: latest
     - name: Install dependencies
       run: npm ci
+    - name: Build typescript
+      run: npx tsc
+
+  test:
+    needs: buildTypeScript
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
@@ -26,7 +34,7 @@ jobs:
         retention-days: 30
   
   deployFlyIoApp:
-    needs: test
+    needs: [buildTypeScript, test]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

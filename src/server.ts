@@ -1,47 +1,46 @@
 console.log("Server side code is running.");
-const { createClient } = require('@libsql/client');
-const express = require('express');
-const path = require('path');
+import { createClient, Client } from '@libsql/client';
+import express, { Express, Request, Response } from "express";
+import * as path from 'path';
 
 const client = createClient({
     url: "libsql://counter-szankdav.turso.io",
     authToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTA3NjE4MTgsImlkIjoiNWJhYmIwOTItODk0Mi00NTU1LWI3NDAtYWM3OTE0OWI1MTNjIn0.tuaOahYx0A4DoDyGkbXoRUg-YS8_flmeeYzU7vlSYMTO1KDT86jV6EzjEmozYtdui1mhBg-rXydKA5_zatmCCQ",
   });
 
-const app = express();
+const app: Express = express();
+const port = 8080;
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '../src/public')))
 app.use('/css', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/css')));
 app.use('/js', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/js')));
+app.use('/ts', express.static(path.join(__dirname, './public')));
 
-app.listen(8080, () => {
+app.listen(port, () => {
     console.log("Listening in 8080!");
 })
 
-app.get('/', async (req, res) => {
+app.get('/', (req: Request, res: Response) => {
     try {
-      await res.sendFile(__dirname + '/public/index.html');
+      res.sendFile(__dirname + '../src/public/index.html');
     } catch (error) {
       res.status(404).json({ error: "Page not found!" });
     }
 });
 
-app.get('/getNumber', async (req, res) => {
+app.get('/getNumber', async (req: Request, res: Response) => {
     try {
-      await client
-      .execute("SELECT countedNumber FROM countedNumbers")
-      .then(function (result) {
+        const result = await client.execute("SELECT countedNumber FROM countedNumbers");
         const numberFromServer = result.rows[0]['countedNumber'];
-        console.log(result.rows[0]['countedNumber'].toString())
+        console.log(numberFromServer?.toString());
         res.status(200).json(numberFromServer);
-      })
     } catch (error) {
-      console.error("Error while fetching the data:", error);
-		  res.status(500).json({ error: "An error occurred while fetching data." });
+        console.error("Error while fetching the data:", error);
+        res.status(500).json({ error: "An error occurred while fetching data." });
     }
 });
 
-app.put("/increased", async (req, res) => {
+app.put("/increased", async (req: Request, res: Response) => {
   try {
     await client.execute("UPDATE countedNumbers SET countedNumber = countedNumber + 1");
     res.sendStatus(201);
@@ -51,7 +50,7 @@ app.put("/increased", async (req, res) => {
   }
 });
 
-app.put("/decreased", async (req, res) => {
+app.put("/decreased", async (req: Request, res: Response) => {
     try {
       await client.execute("UPDATE countedNumbers SET countedNumber = countedNumber - 1");
       res.sendStatus(201);
