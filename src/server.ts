@@ -1,19 +1,23 @@
 console.log("Server side code is running.");
-import { createClient, Client } from '@libsql/client';
+import { createClient } from '@libsql/client';
 import express, { Express, Request, Response } from "express";
-import * as path from 'path';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const client = createClient({
     url: "libsql://counter-szankdav.turso.io",
     authToken: "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTA3NjE4MTgsImlkIjoiNWJhYmIwOTItODk0Mi00NTU1LWI3NDAtYWM3OTE0OWI1MTNjIn0.tuaOahYx0A4DoDyGkbXoRUg-YS8_flmeeYzU7vlSYMTO1KDT86jV6EzjEmozYtdui1mhBg-rXydKA5_zatmCCQ",
   });
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 const app: Express = express();
 const port = 8080;
 
-app.use(express.static(path.join(__dirname, '../src/public')))
-app.use('/css', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/css')));
-app.use('/js', express.static(path.join(__dirname, '../node_modules/bootstrap/dist/js')));
+app.use(express.static(path.join(__dirname, '../../src/public')))
+app.use('/css', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/css')));
+app.use('/js', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/js')));
 app.use('/ts', express.static(path.join(__dirname, './public')));
 
 app.listen(port, () => {
@@ -22,7 +26,7 @@ app.listen(port, () => {
 
 app.get('/', (req: Request, res: Response) => {
     try {
-      res.sendFile(__dirname + '../src/public/index.html');
+      res.sendFile(path.resolve('./src/public/index.html'));
     } catch (error) {
       res.status(404).json({ error: "Page not found!" });
     }
@@ -59,3 +63,5 @@ app.put("/decreased", async (req: Request, res: Response) => {
 		  res.status(500).json({ error: "An error occurred decreasing the number." });
     }
   });
+
+  export default app;

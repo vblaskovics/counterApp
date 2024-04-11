@@ -1,3 +1,5 @@
+import express, { Express, Request, Response } from "express";
+
 console.log("Client-side code is running.")
 
 const increaseButton: HTMLElement | null = document.getElementById("increaseButton");
@@ -22,9 +24,10 @@ async function loadNumber(): Promise<void> {
         });
 }
 
-if (increaseButton) {
-    increaseButton.addEventListener('click', async function (e) {
-        console.log("Increase button is clicked!");
+window.onload = loadNumber;
+
+async function increaseClick() : Promise<void> {
+    console.log("Increase button is clicked!");
         await fetch('/increased', { method: 'PUT' })
             .then(function (response) {
                 if (response.ok) {
@@ -37,12 +40,10 @@ if (increaseButton) {
             .catch(function (error) {
                 console.log(error);
             });
-    });
 }
 
-if (decreaseButton) {
-    decreaseButton.addEventListener('click', async function (e) {
-        console.log("Decrease button is clicked!");
+async function decreaseClick() : Promise<void> {
+    console.log("Decrease button is clicked!");
         await fetch("/decreased", { method: "PUT" })
             .then(function (response) {
                 if (response.ok) {
@@ -55,5 +56,12 @@ if (decreaseButton) {
             .catch(function (error) {
                 console.log(error);
             });
-    });
+}
+
+if (increaseButton) {
+    increaseButton.addEventListener('click', increaseClick);
+}
+
+if (decreaseButton) {
+    decreaseButton.addEventListener("click", decreaseClick);
 }
