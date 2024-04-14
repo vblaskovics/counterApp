@@ -44,3 +44,11 @@ h1 {
     align-items: center;
     padding: 1.5rem;
 }
+
+.form-check {
+    color: white; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: .5rem;
+}
