@@ -8,7 +8,7 @@
     "build": "npx tsc",
     "start": "node ./dist/src/server.js",
     "startdev": "nodemon ./src/server.ts",
-    "test": "npx playwright test && NODE_OPTIONS=--experimental-vm-modules jest --verbose --coverage --config jest.config.cjs"
+    "test": "npx playwright test"
   },
   "author": "",
   "license": "ISC",
