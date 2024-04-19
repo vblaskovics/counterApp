@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1712834269808" clover="3.2.0">
-  <project timestamp="1712834269808" name="All files">
+<coverage generated="1713270082851" clover="3.2.0">
+  <project timestamp="1713270082851" name="All files">
     <metrics statements="43" coveredstatements="25" conditionals="15" coveredconditionals="9" methods="15" coveredmethods="8" elements="73" coveredelements="42" complexity="0" loc="43" ncloc="43" packages="1" files="1" classes="1"/>
     <file name="server.js" path="C:\Users\TUF Gaming\Desktop\counterApp\dist\src\server.js">
       <metrics statements="43" coveredstatements="25" conditionals="15" coveredconditionals="9" methods="15" coveredmethods="8"/>

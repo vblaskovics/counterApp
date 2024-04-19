@@ -11,6 +11,7 @@ console.log("Client-side code is running.");
 const increaseButton = document.getElementById("increaseButton");
 const decreaseButton = document.getElementById("decreaseButton");
 const startNumber = document.getElementById("countNumber");
+const continuousIncreaseCheck = document.getElementById("continuousIncreaseCheck");
 function loadNumber() {
     return __awaiter(this, void 0, void 0, function* () {
         yield fetch('/getNumber', { method: 'GET' })
@@ -68,10 +69,27 @@ function decreaseClick() {
         });
     });
 }
+let id;
+function ContinuousIncrease(e) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const isChecked = e.target.checked;
+        if (isChecked) {
+            id = setInterval(() => __awaiter(this, void 0, void 0, function* () {
+                yield increaseClick();
+            }), 1000);
+        }
+        else if (!isChecked) {
+            clearInterval(id);
+        }
+    });
+}
 if (increaseButton) {
     increaseButton.addEventListener('click', increaseClick);
 }
 if (decreaseButton) {
     decreaseButton.addEventListener("click", decreaseClick);
+}
+if (continuousIncreaseCheck) {
+    continuousIncreaseCheck.addEventListener("change", ContinuousIncrease);
 }
 export {};
