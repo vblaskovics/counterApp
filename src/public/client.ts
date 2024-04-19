@@ -59,6 +59,19 @@ async function decreaseClick() : Promise<void> {
             });
 }
 
+let id : ReturnType<typeof setInterval>;
+async function ContinuousIncrease(e: Event){
+    const isChecked = (<HTMLInputElement>e.target).checked;
+    if(isChecked){
+        id = setInterval(async () => {
+            await increaseClick();
+        }, 1000)
+    }
+    else if (!isChecked){
+        clearInterval(id);
+    }
+}
+
 if (increaseButton) {
     increaseButton.addEventListener('click', increaseClick);
 }
