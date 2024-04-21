@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: rgb(0,212,255);
+    background: linear-gradient(180deg, rgba(0,212,255,1) 0%, rgba(9,9,121,1) 50%, rgba(2,0,36,1) 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h1 {
+    color: rgb(239, 255, 12);
+}
+
+.container {
+    position: relative;
+    min-height: 100vh;
+}
+
+.row {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateY(-70%);
+    transform: translateX(-50%);
+}
+
+#countNumber {
+    font-size: 4rem;
+    color: rgb(16, 161, 142);
+}
+
+#counterField {
+    border-radius: 10px;
+}
+
+#buttons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+}
+
+.form-check {
+    color: white; 
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: .5rem;
+}

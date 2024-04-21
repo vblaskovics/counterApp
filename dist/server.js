@@ -20,20 +20,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
 const port = 8080;
-app.use(express.static(path.join(__dirname, '../../src/public')));
-app.use('/css', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/css')));
-app.use('/js', express.static(path.join(__dirname, '../../node_modules/bootstrap/dist/js')));
-app.use('/ts', express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, '/public')));
 app.listen(port, () => {
     console.log("Listening in 8080!");
-});
-app.get('/', (req, res) => {
-    try {
-        res.sendFile(path.resolve('./src/public/index.html'));
-    }
-    catch (error) {
-        res.status(404).json({ error: "Page not found!" });
-    }
 });
 app.get('/getNumber', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
